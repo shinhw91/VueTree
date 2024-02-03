@@ -1,6 +1,6 @@
 <template>
   <HeadComponent v-on:save-todo="saveTodo"/>
-  <BodyComponent v-bind:list="todoList" v-on:delete-todo="deleteTodo" v-on:checked-todo="checkedTodo"/>
+  <BodyComponent v-bind:list="todoList" v-on:delete-todo="deleteTodo" v-on:check-todo="checkTodo"/>
 </template>
 
 <script>
@@ -32,8 +32,13 @@ export default {
     deleteTodo(no) {
       this.todoList = this.todoList.filter(todo => (todo.no == no)? false : true)
     },
-    checkedTodo(no) {
-      
+    checkTodo(no) {
+      for(let i = 0; i < this.todoList.length; i++) {
+        if(this.todoList[i].no == no) {
+          this.todoList[i].cancelFlag = !this.todoList[i].cancelFlag;
+          break;
+        }
+      }
     }
   }
 }
