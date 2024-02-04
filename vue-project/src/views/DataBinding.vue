@@ -2,7 +2,7 @@
   <h3>Hello, {{msg}}</h3>
   <div>{{htmlStr}}</div>
   <div v-html="htmlStr"></div>
-  <!-- <div v-text="htmlStr"></div> -->
+  <div v-text="htmlStr"></div>
   <!-- input(v-model) : 입력값으로 자동 변경 -->
   <input type="text" v-model="vmodel" />
   <p>{{vmodel}}</p>

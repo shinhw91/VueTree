@@ -12,7 +12,7 @@
   <label><input type="checkbox" value="02" v-model="checkItems">부산</label>
   <label><input type="checkbox" value="01" v-model="checkItems">제주</label>
   <label><input type="checkbox" value="03" v-model="checkItems">대전</label>  
-  <p>선택값 : {{orderItems}}</p>
+  <p>선택값 : {{checkItems}}</p>
 </template>
 
 <script>
@@ -22,12 +22,6 @@ export default {
       city: '04',
       checked: 'yes',
       checkItems : ['01']
-    }
-  },
-  computed: {
-    orderItems() {
-      return this.checkItems.sort((a, b) =>
-        {return a - b});
     }
   }
 }
