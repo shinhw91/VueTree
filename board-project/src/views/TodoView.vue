@@ -45,7 +45,7 @@ export default {
 </script>
 
 <!-- W3Schools To Do List 스타일 적용 -->
-<style>
+<style scoped>
 body {
   margin: 0;
   min-width: 250px;

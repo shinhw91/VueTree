@@ -1,18 +1,22 @@
 <template>
   <nav>
+    <h1>{{getToday}}</h1>
     <router-link to="/">Home</router-link> |
     <router-link to="/about">About</router-link> |
     <router-link to="/board">게시판</router-link> |
-    <router-link to="/todo">Todo</router-link>
+    <router-link to="/todo">Todo</router-link> |
+    <router-link to="/store">Store</router-link>
   </nav>
   <router-view/>
 </template>
 
 <script>
+// import mix from '../src/mixin.js'
 export default {
+  //  mixins: [mix],
   data() {
     return {
-      rootData: 'hello'
+      rootData: 'hello' // this.data.rootData
     }
   },
   // provide : 자손 컴포넌트 전달값
@@ -21,6 +25,17 @@ export default {
       rootList: 'Hello, Hello, Hello',
       rootStr: 'World'
     }
+  },
+  // computed : 데이터 옵션 사용(read only), return 필수
+  // methods : 일반함수 형태
+  computed: {
+    // 믹스인
+    getToday() {
+      return this.$getToday('yyyy/MM/dd');
+    }
+  },
+  mounted() {
+    console.log("App.vue mounted");
   }
 }
 </script>
