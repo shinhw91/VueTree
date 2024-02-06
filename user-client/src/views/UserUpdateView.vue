@@ -80,16 +80,16 @@ export default {
             // 2-2) axios 이용해서 ajax
             // *data : 객체 또는 배열 -> JSON
             axios
-            .put('/api/users' + this.userInfo.user_id, data)
+            .put('/api/users/' + this.userInfo.user_id, data)
             .then(result => {
                 // 3) 결과처리
-                // console.log(result);
+                console.log(result);
                 let user_no = result.data.insertId;
                 if(user_no == 0) {
-                    alert(`등록되지 않았습니다.\n메세지를 확인해주세요.\n${result.data.message}`);
-                } else {
-                    alert(`정상적으로 등록되었습니다.`);
+                    alert(`정상적으로 수정되었습니다.`);
                     this.userInfo.user_no = user_no;
+                } else {
+                    alert(`수정되지 않았습니다.\n메세지를 확인해주세요.\n${result.data.message}`);
                 }
             })
             .catch(err => console.log(err));

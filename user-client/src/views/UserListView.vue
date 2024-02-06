@@ -49,7 +49,7 @@ export default {
     watch: {
         userList(newQuestion, oldQuestion) {
             console.log('이전 : ', oldQuestion);
-            alert('데이터가 변경되었습니다.');
+            // alert('데이터가 변경되었습니다.');
             console.log('이후 : ', newQuestion);
         }
     },
