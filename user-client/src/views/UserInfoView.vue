@@ -100,11 +100,27 @@ export default {
         goToUpdate(userId) {
             // 수정폼 컴포넌트 호출
             // console.log(userId);
-            this.$router.push({path: '/userUpdate', query: {"userId" : userId}});
+            // this.$router.push({path: '/userUpdate', query: {"userId" : userId}});
+            this.$router.push({path: '/userForm', query: {"userId" : userId}});
         },
         deleteInfo(userId) {
             // 서버에 해당 데이터 삭제
-            console.log(userId);
+            axios
+            .delete('/api/users/' + userId)
+            .then(result => {
+                // 3) 결과처리
+                console.log(result);
+                let count = result.data.affectedRows; // 추가, 수정, 삭제
+                let changeCnt = result.data.changedRows;
+                if(count == 0 && changeCnt != 0) {
+                    alert(`삭제되지 않았습니다.\n메세지를 확인해주세요.\n${result.data.message}`);
+                } else {
+                    alert(`정상적으로 삭제되었습니다.`);
+                    this.$router.push('/');
+                    // this.$router.push({path : '/'});
+                }
+            })
+            .catch(err => console.log(err));
         }
     }
 }

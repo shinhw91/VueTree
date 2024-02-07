@@ -11,7 +11,7 @@
                 </tr>
                 <tr>
                     <th class="text-right table-primary">아이디</th>
-                    <td class="text-center"><input class="form-control" type="text" v-model="userInfo.user_id" value="userInfo.user_id"></td>
+                    <td class="text-center"><input class="form-control" type="text" v-model="userInfo.user_id" value="userInfo.user_id" readonly></td>
                 </tr>
                 <tr>
                     <th class="text-right table-primary">비밀번호</th>
@@ -42,7 +42,7 @@
             </table>
         </div>
         <div class="row">
-            <button class="btn btn-info" @click="insertInfo()">저장</button>
+            <button class="btn btn-info" @click="updateInfo()">저장</button>
         </div>
     </div>
 </template>
@@ -67,9 +67,23 @@ export default {
             let result = await axios.get('/api/users/' + userId)    // `/api/users/${userId}`
                                     .catch(err => console.log(err));
             let info = result.data;
+
+            let newData = this.dateFormat(info.join_date);
+            info.join_date = newData;
             this.userInfo = info;
         },
-        insertInfo() {
+        dateFormat(value) {
+            let result = null;
+            if(value != null) {
+                let date = new Date(value);
+                let year = date.getFullYear();
+                let month = ('0' + (date.getMonth() + 1)).slice(-2);
+                let day = ('0' + date.getDate()).slice(-2);
+                result = `${year}-${month}-${day}`;
+            }
+            return result;
+        },
+        updateInfo() {
             // 1) 유효성 체크(개별 체크 필요)
             if(!this.validation()) return;
 
@@ -84,21 +98,17 @@ export default {
             .then(result => {
                 // 3) 결과처리
                 console.log(result);
-                let user_no = result.data.insertId;
-                if(user_no == 0) {
-                    alert(`정상적으로 수정되었습니다.`);
-                    this.userInfo.user_no = user_no;
-                } else {
+                let count = result.data.changedRows;  // 수정
+                if(count == 0) {
                     alert(`수정되지 않았습니다.\n메세지를 확인해주세요.\n${result.data.message}`);
+                } else {
+                    alert(`정상적으로 수정되었습니다.`);
+                    this.$router.push({path:'/userInfo', query: {"userId" : this.userInfo.user_id}});
                 }
             })
             .catch(err => console.log(err));
         },
         validation() {
-            if(this.userInfo.user_id == "") {
-                alert('아이디가 입력되지 않았습니다.');
-                return false;
-            }
             if(this.userInfo.user_pwd == "") {
                 alert('비밀번호가 입력되지 않았습니다.');
                 return false;
@@ -112,7 +122,7 @@ export default {
         },
         getSendData() {
             let obj = this.userInfo;
-            let delDate = ["user_no"];
+            let delDate = ["user_no", "user_id"];
             let newObj = {};
 
             let isTargeted = null;

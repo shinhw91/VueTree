@@ -25,8 +25,8 @@
                     <th class="text-right table-primary">성별</th>
                     <td class="text-center">
                         <!-- id, name 사용할 필요 없음(데이터바인딩) -->
-                        <input type="radio" value="M" v-model="userInfo.user_gender">남
-                        <input type="radio" value="F" v-model="userInfo.user_gender">여
+                        <input type="radio" value="M" v-model="userInfo.user_gender"> 남
+                        <input type="radio" value="F" v-model="userInfo.user_gender"> 여
                         <!-- <input type="checkbox" true-value="예" false-value="아니오" v-model="chkVal"> -->
                     </td>
                 </tr>
@@ -65,7 +65,18 @@ export default {
             }
         }
     },
+    created() {
+        this.userInfo.join_date = this.getToday();
+    },
     methods: {
+        getToday() {
+            let date = new Date();
+            let year = date.getFullYear();
+            let month = ('0' + (date.getMonth() + 1)).slice(-2);
+            let day = ('0' + date.getDate()).slice(-2);
+            let result = `${year}-${month}-${day}`;
+            return result;
+        },
         insertInfo() {
             // 1) 유효성 체크(개별 체크 필요)
             if(!this.validation()) return;
@@ -80,8 +91,8 @@ export default {
             .post('/api/users', data)
             .then(result => {
                 // 3) 결과처리
-                // console.log(result);
-                let user_no = result.data.insertId;
+                console.log(result);
+                let user_no = result.data.insertId; // 추가(auto_increment에서만 존재)    *affectedRows 사용 권장
                 if(user_no == 0) {
                     alert(`등록되지 않았습니다.\n메세지를 확인해주세요.\n${result.data.message}`);
                 } else {
