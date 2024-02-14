@@ -1,15 +1,18 @@
 // sql.js
 
-let list =
+// 전체조회
+let boardList =
 `SELECT no
         , title
         , writer
         , content
         , created_date
         , updated_date
-FROM t_board_board`;
+FROM t_board_board
+order by no`;
 
-let info =
+// 단건조회
+let boardInfo =
 `SELECT no
         , title
         , writer
@@ -19,18 +22,20 @@ let info =
 FROM t_board_board
 WHERE no = ?`;
 
-let insert =
+// 등록
+let boardInsert =
 `INSERT INTO t_board_board
 SET ?`;
 
-let update =
+// 수정
+let boardUpdate =
 `UPDATE t_board_board
 SET ?
 WHERE no = ?`;
 
 module.exports = {
-    list,
-    info,
-    insert,
-    update
+        boardList,
+        boardInfo,
+        boardInsert,
+        boardUpdate
 }

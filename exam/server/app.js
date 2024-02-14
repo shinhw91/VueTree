@@ -13,21 +13,21 @@ app.listen(5000, () => {
 
 // 전체조회
 app.get('/board', async(req, res) => {
-    let list = await mysql.executeQuery('list');
+    let list = await mysql.executeQuery('boardList');
     res.json(list);
 })
 
 // 단건조회
 app.get('/board/:no', async(req, res) => {
     let no = req.params.no;
-    let info = (await mysql.executeQuery('info', no))[0];
+    let info = (await mysql.executeQuery('boardInfo', no))[0];
     res.json(info);
 })
 
 // 등록
 app.post('board', async(req, res) => {
     let data = req.body.param;
-    let result = await mysql.executeQuery('insert', data);
+    let result = await mysql.executeQuery('boardInsert', data);
     res.json(result);
 })
 
@@ -40,7 +40,7 @@ app.put('board/:no', async(req, res) => {
 async function undateAll(request) {
     let data = [selectedInfo(request.body.param)
                 , request.params.no];
-    let result = await mysql.executeQuery('update', data);
+    let result = await mysql.executeQuery('baordUpdate', data);
     return result;
 }
 
